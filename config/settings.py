@@ -16,6 +16,8 @@ import os
 import os
 import dj_database_url
 
+ALLOWED_HOSTS = ['*']
+
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key-for-dev')
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
