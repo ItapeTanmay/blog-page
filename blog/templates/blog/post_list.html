@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Posts</h2>
+
+<!-- Search and Filter Form -->
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-6">
+        <input type="text" name="q" class="form-control" placeholder="Search by title..." value="{{ query }}">
+    </div>
+    <div class="col-md-4">
+        <select name="category" class="form-select">
+            <option value="">All Categories</option>
+            {% for value, label in category_choices %}
+                <option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2 d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Search</button>
+        {% if query or category %}
+            <a href="{% url 'post-list' %}" class="btn btn-outline-secondary">Clear</a>
+        {% endif %}
+    </div>
+</form>
+
+{% if page_obj.object_list %}
+    <div class="row">
+        {% for post in page_obj %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'post-detail' post.slug %}" class="text-decoration-none">{{ post.title }}</a>
+                        </h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                By {{ post.author.username }} | {{ post.created_at|date:"F d, Y" }} | {{ post.get_category_display }}
+                            </small>
+                        </p>
+                        <p class="card-text">{{ post.body|truncatewords:30 }}</p>
+                        <span>❤️ {{ post.likes.count }} likes</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1&q={{ query }}&category={{ category }}">First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ query }}&category={{ category }}">Previous</a></li>
+                {% endif %}
+                <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ query }}&category={{ category }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&category={{ category }}">Last</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="alert alert-info">No posts found.</div>
+{% endif %}
+{% endblock %}

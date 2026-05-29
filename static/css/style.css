@@ -1,0 +1,25 @@
+/* Custom styles for Community Blog */
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    margin-bottom: 2rem;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+.avatar-profile {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.alert {
+    margin-top: 1rem;
+}
