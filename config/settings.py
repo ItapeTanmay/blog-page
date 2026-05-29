@@ -19,7 +19,7 @@ import dj_database_url
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key-for-dev')
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = ['blog-page-d3by.onrender.com']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
